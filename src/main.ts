@@ -1,9 +1,15 @@
 import './polyfills';
 
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, NgModuleRef } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
+
+declare global {
+  interface Window {
+    ngRef: NgModuleRef<AppModule>
+  }
+}
 
 platformBrowserDynamic().bootstrapModule(AppModule).then(ref => {
   // Ensure Angular destroys itself on hot reloads.
