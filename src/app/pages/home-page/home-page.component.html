@@ -14,12 +14,17 @@
         </div>
       </div>
       <br />
-      <button class="btn btn-primary" id="addLocationBtn" type="submit" [disabled]="homeForm.invalid">
+      <button
+        class="btn btn-primary"
+        id="addLocationBtn"
+        type="submit"
+        [disabled]="homeForm.invalid"
+      >
         Add location
       </button>
     </form>
   </div>
-  <ng-container *ngIf="openWeatherZipCodes$ | async as openWeatherZipCodes; else loader">
+  <ng-container *ngIf="openWeatherZipCodes$ | async as openWeatherZipCodes">
     <div class="well flex" *ngFor="let data of openWeatherZipCodes; index as i">
       <ng-container *ngIf="data.response.weather[0] as weatherData">
         <div>
@@ -32,19 +37,20 @@
             {{ data.response.main.temp_min | customNumber }}
           </p>
           <p>
-            <a [routerLink]="['/forecast', data.zipCode ]"
+            <a [routerLink]="['/forecast', data.zipCode]"
               >Show 5-day forecast for {{ data.response.name }}</a
             >
           </p>
         </div>
         <div>
-          <span class="close" (click)="onDelete(data.zipCode)">×</span>
-          <img *ngIf="weatherData.main | weatherIcon as iconUrl" [src]="iconUrl" />
+          <span class="close" (click)="onDelete(data.zipCode, i)">×</span>
+          <img
+            *ngIf="weatherData.main | weatherIcon as iconUrl"
+            [src]="iconUrl"
+          />
         </div>
       </ng-container>
     </div>
   </ng-container>
-  <ng-template #loader>
-    <app-loader></app-loader>
-  </ng-template>
 </div>
+<app-loader *ngIf="!(dataLoaded$ | async)"></app-loader>

@@ -30,17 +30,17 @@
 }
 
 .wrapper-overlay {
-  position: relative; 
-  min-height: 20em;
+  position: relative;
 }
 
 .wrapper-loader {
- transform: translateY(50%);
+ transform: translateY(calc(100vw - 80vw));
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0px;
+  left: 0px;
   background: rgba(0, 0, 0, 0.5);
   display: block;
   text-align: center;
