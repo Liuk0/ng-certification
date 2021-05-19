@@ -5,6 +5,8 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ForecastPageComponent } from './forecast-page/forecast-page.component';
 import { RoutingModule } from '../routing/routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from '../pipes/pipes.module';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule,
+    ComponentsModule
   ],
   exports: [
     RoutingModule

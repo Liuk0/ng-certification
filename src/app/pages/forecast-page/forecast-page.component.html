@@ -1,48 +1,39 @@
-<h4>Template for 5-day forecast page:</h4>
 <div class="container-fluid">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">5-day forecast for Rancho Cordova</h3>
-
+  <ng-container *ngIf="forecastData$ | async as forecastData; else loader">
+    <div class="panel panel-default app-loader">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          5-day forecast for {{ forecastData.city.name }}
+        </h3>
+      </div>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let weatherDay of forecastData.list"
+        >
+          <ng-container *ngIf="weatherDay.weather[0] as weatherDayData">
+            {{ weatherDay.dt | customDate }}: {{ weatherDayData.main }} - Min:
+            {{ weatherDay.main.temp_min | customNumber }} - Max:
+            {{ weatherDay.main.temp_max | customNumber }}
+            <img
+              *ngIf="weatherDayData.main | weatherIcon as iconUrl"
+              [src]="iconUrl"
+              class="icon"
+            />
+          </ng-container>
+        </li>
+      </ul>
     </div>
-    <ul class="list-group">
-      <!----><li class="list-group-item">
-        Monday, Mar 23:
-        Rain
-        - Min: 45
-        - Max: 59
-
-        <img class="icon" src="https://www.angulartraining.com/images/weather/rain.png">
-      </li><li class="list-group-item">
-        Tuesday, Mar 24:
-        Rain
-        - Min: 39
-        - Max: 52
-
-        <img class="icon" src="https://www.angulartraining.com/images/weather/sun.png">
-      </li><li class="list-group-item">
-        Wednesday, Mar 25:
-        Rain
-        - Min: 36
-        - Max: 54
-
-        <img class="icon" src="https://www.angulartraining.com/images/weather/rain.png">
-      </li><li class="list-group-item">
-        Thursday, Mar 26:
-        Clear
-        - Min: 37
-        - Max: 56
-
-        <img class="icon" src="https://www.angulartraining.com/images/weather/clouds.png">
-      </li><li class="list-group-item">
-        Friday, Mar 27:
-        Clear
-        - Min: 40
-        - Max: 57
-
-        <img class="icon" src="https://www.angulartraining.com/images/weather/snow.png">
-      </li>
-    </ul>
-  </div>
-  <button class="btn btn-success" tabindex="0" id="mainPageBtn" [routerLink]="['/']" >&lt; Back to main page</button>
+  </ng-container>
+  <ng-template #loader>
+    <app-loader></app-loader>
+  </ng-template>
+  <button
+    class="btn btn-success"
+    tabindex="0"
+    id="mainPageBtn"
+    [routerLink]="['/']"
+  >
+    &lt; Back to main page
+  </button>
 </div>

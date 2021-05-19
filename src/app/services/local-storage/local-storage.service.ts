@@ -13,23 +13,34 @@ export class LocalStorageService {
     this._localStorage = _localStorageRefService.localStorage;
   }
 
-  addZipCode(value: string) {
+  addZipCode(zipCode: string): void {
     const currentItems = this._localStorage.getItem("zipCodes");
     if(currentItems) {
       const data = JSON.parse(currentItems) as string[];
-      data.push(value);
-      const jsonData = JSON.stringify(data);
-      this._localStorage.setItem("zipCodes", jsonData);
-      this._zipCodes$.next(data);
+      if(data.indexOf(zipCode) === -1) {
+        data.push(zipCode);
+        const jsonData = JSON.stringify(data);
+        this._localStorage.setItem("zipCodes", jsonData);
+        this._zipCodes$.next(data);
+      }
     } else {
-      const data = [value];
+      const data = [zipCode];
       const jsonData = JSON.stringify(data);
       this._localStorage.setItem("zipCodes", jsonData);
       this._zipCodes$.next(data);
     }
   }
 
-  loadZipCodes() {
+  deleteZipCode(zipCode: string): void {
+    const currentItems = this._localStorage.getItem("zipCodes") as string;
+    const data = JSON.parse(currentItems) as string[];
+    const dataFiltered = data.filter((el) => el !== zipCode);
+    const jsonData = JSON.stringify(dataFiltered);
+    this._localStorage.setItem("zipCodes", jsonData);
+    this._zipCodes$.next(dataFiltered);
+  }
+
+  loadZipCodes(): void {
     const currentItems = this._localStorage.getItem("zipCodes");
     if (currentItems) {
       const data = JSON.parse(currentItems);
@@ -37,17 +48,17 @@ export class LocalStorageService {
     }
   }
 
-  clearZipCodes() {
+  clearZipCodes(): void {
     this._localStorage.removeItem("zipCodes");
     this._zipCodes$.next([]);
   }
 
-  clearAllLocalStorage() {
+  clearAllLocalStorage(): void {
     this._localStorage.clear();
     this._zipCodes$.next([]);
   }
 
-  get zipCodes$(): Observable<any> {
+  get zipCodes$(): Observable<string[]> {
     return this._zipCodes$.asObservable();
   }
 }
